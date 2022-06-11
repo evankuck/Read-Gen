@@ -1,6 +1,11 @@
+// AS A developer
+// I WANT a README generator
+// SO THAT I can quickly create a professional README for a new project
+
 // TODO: Include packages needed for this application
 const fs = require("fs");
 const inquirer = require("inquirer");
+const generateMarkdown = require("./utils/generateMarkdown");
 
 // TODO: Create an array of questions for user input
 // inquirer documentation: https://www.npmjs.com/package/inquirer
@@ -46,8 +51,23 @@ const questions = [
   },
   {
     type: "input",
-    name: "questions",
-    message: "Please describe any questions you have about your project.",
+    name: "github",
+    message: "What is your GitHub username?",
+  },
+  {
+    type: "input",
+    name: "email",
+    message: "What is your email address?",
+  },
+
+  // WHEN I choose a license for my application from a list of options
+// THEN a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
+  {
+    type: "list",
+    choices: ["MIT", "Apache", "GPL", "BSD", "None"],
+    name: "license",
+    default: "MIT",
+    message: "What is your license?",
   },
 ];
 
@@ -68,16 +88,12 @@ function init() {
     .then((answers) => {
       // answers is an object containing the answers to the questions
       console.log(answers); // log the answers to the console
-      writeToFile("README.md", JSON.stringify(answers)); // write the answers to the README file
+      writeToFile("README.md", generateMarkdown(answers)); // write the answers to the README file
     });
 }
 
 // Function call to initialize app
 init();
-
-// AS A developer
-// I WANT a README generator
-// SO THAT I can quickly create a professional README for a new project
 
 // GIVEN a command-line application that accepts user input
 
@@ -90,8 +106,7 @@ init();
 // WHEN I enter a description, installation instructions, usage information, contribution guidelines, and test instructions
 // THEN this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
 
-// WHEN I choose a license for my application from a list of options
-// THEN a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
+
 
 // WHEN I enter my GitHub username
 // THEN this is added to the section of the README entitled Questions, with a link to my GitHub profile
